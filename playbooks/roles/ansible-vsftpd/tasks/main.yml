@@ -1,0 +1,39 @@
+---
+# tasks file for ansible-vsftpd
+- name: install vsftpd
+  apt: name={{ item }} state=latest cache_valid_time=3600 update_cache=yes
+  with_items:
+    - vsftpd
+    - libpam-pwdfile
+
+- name: create directory for user configuration
+  command: mkdir {{ vsftpd_user_config_dir }} creates={{ vsftpd_user_config_dir }}
+
+- name: create directory for key local_root from vsftpd.conf
+  command: mkdir {{ vsftpd_local_root }} creates={{ vsftpd_local_root }}
+
+- name: set permissions for local_root
+  command: chown root:root {{ vsftpd_local_root }}
+
+- name: copy file for PAM service
+  template: src=vsftpd.pam.j2 dest=/etc/pam.d/vsftpd mode=644 backup=yes
+
+- name: copy script the vsftpd-user
+  template: src=vsftpd-user.j2 dest=/sbin/vsftpd-user mode=755
+
+- name: system | Add ssh user keys 
+  command: /sbin/vsftpd-user add {{ item.username }} {{ item.password }}
+  with_items: ftp_users
+
+# will be create backup file if already exist
+- name: copy config file of the vsftpd
+  template: src=vsftpd.conf-ftp-1.j2 dest=/etc/vsftpd.conf mode=644 backup=yes
+  when: inventory_hostname in groups['ftp-1']
+  notify:
+    - restart vsftpd
+
+- name: copy config file of the vsftpd
+  template: src=vsftpd.conf-ftp-2.j2 dest=/etc/vsftpd.conf mode=644 backup=yes
+  when: inventory_hostname in groups['ftp-2']
+  notify:
+    - restart vsftpd

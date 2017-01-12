@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Wesley Blake
+  description: Install FTP server - vsftpd
+  license: MIT
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Debian
+    versions:
+    - jessie
+
+  categories:
+  - networking
+  - web
+
+dependencies: []

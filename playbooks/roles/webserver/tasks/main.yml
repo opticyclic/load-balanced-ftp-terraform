@@ -1,0 +1,16 @@
+- name: install nginx
+  apt: name={{ item }} state=latest cache_valid_time=3600 update_cache=yes
+  with_items:
+    - nginx
+
+- name: Deploy | copy nginx config of project
+  template: "src=nginx_site_config.j2 dest=/etc/nginx/sites-enabled/default"
+
+- name: Deploy | user index.html
+  template: "src=default.html.j2 dest=/var/www/html/data/{{item.username}}/index.html"
+  with_items: ftp_users
+
+- name: Deploy | reload nginx
+  service: "name=nginx state=reloaded"
+
+

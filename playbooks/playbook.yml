@@ -1,0 +1,7 @@
+- hosts: ftp-hosts
+  become: true
+  become_user: root
+  roles:
+  - ansible-vsftpd
+  - webserver
+

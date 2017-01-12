@@ -1,0 +1,27 @@
+---
+# vars file for ansible-vsftpd
+# vsftpd settings
+vsftpd_ftpd_banner: Welcome to your FTP!
+vsftpd_max_per_ip: 100
+vsftpd_pasv_min_port_ftp_1: 2000
+vsftpd_pasv_max_port_ftp_1: 2050
+vsftpd_pasv_min_port_ftp_2: 2051
+vsftpd_pasv_max_port_ftp_2: 2095
+vsftpd_xferlog_enable: 'YES'
+vsftpd_local_root: /var/www/html/data
+vsftpd_ssl_enable: 'NO'
+vsftpd_tls_only: 'NO'
+vsftpd_user_config_dir: /etc/vsftpd.d
+vsftpd_rsa_cert_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+vsftpd_rsa_private_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
+vsftpd_write_enable: 'YES'
+vsftpd_pasv_enable: 'YES'
+vsftpd_pasv_address: elb.some.domain.com
+vsftpd_pasv_addr_resolve: 'YES'
+# end vsftpd settings
+
+vsftpd_pwd_file: /etc/vsftpd
+
+vsftpd_test_user_is_enable: no
+vsftpd_test_user: testuser
+vsftpd_test_user_password: testP@as$!

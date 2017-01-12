@@ -1,0 +1,3 @@
+ftp_users:
+  - username: someuser
+    password: someawesomepassword
